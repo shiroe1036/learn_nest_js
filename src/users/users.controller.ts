@@ -6,10 +6,11 @@ import { Param, Post, Body, Delete, Get } from '@nestjs/common/decorators';
 export class UsersController {
   constructor(private service: UserService) {}
 
-  //   @Get(':id')
-  //   get(@Param() params) {
-  //     return this.service.getUser(params.id);
-  //   }
+  @Get(':id')
+  get(@Param() params) {
+    const param = { id: parseInt(params.id) };
+    return this.service.user(param);
+  }
 
   @Get()
   getCollections() {
