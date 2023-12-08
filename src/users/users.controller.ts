@@ -1,27 +1,33 @@
 import { Controller } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UserEntity } from './user.entity/user.entity';
-import { Param, Post, Body, Delete, Get, Put } from '@nestjs/common/decorators';
+import { UserService } from './users.service';
+import { Param, Post, Body, Delete, Get } from '@nestjs/common/decorators';
 
 @Controller('users')
 export class UsersController {
-  constructor(private service: UsersService) {}
+  constructor(private service: UserService) {}
 
-  @Get(':id')
-  get(@Param() params) {
-    return this.service.getUser(params.id);
+  //   @Get(':id')
+  //   get(@Param() params) {
+  //     return this.service.getUser(params.id);
+  //   }
+
+  @Get()
+  getCollections() {
+    const params = {
+      select: { fullName: true, birthday: true, isActive: true },
+    };
+    return this.service.users(params);
   }
 
   @Post()
-  create(@Body() user: UserEntity) {
-    console.log('lol');
+  create(@Body() user: { fullName: string; birthday: any; isActive: boolean }) {
     return this.service.createUser(user);
   }
 
-  @Put()
-  update(@Body() user: UserEntity) {
-    return this.service.updateUser(user);
-  }
+  //   @Put()
+  //   update(@Body() user: UserEntity) {
+  //     return this.service.updateUser(user);
+  //   }
 
   @Delete(':id')
   deleteUser(@Param() params) {
